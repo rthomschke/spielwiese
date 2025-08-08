@@ -1,0 +1,28 @@
+.main-container {
+    display: flex;
+    flex-direction: row;
+    align-items:flex-start;
+    height: 400px;
+
+   
+}
+
+.container-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid black;
+    margin: 10px;
+    flex: 1;
+    align-self: flex-end;
+    
+}
+
+.container-right {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 1px solid black;
+    margin: 10px;
+    flex: 1;
+}
