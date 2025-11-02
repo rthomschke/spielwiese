@@ -1,0 +1,627 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Header Styles */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 1000;
+    padding: 15px 0;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.logo {
+    flex-shrink: 0;
+}
+
+.logo-text {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    color: #000;
+    letter-spacing: -0.5px;
+}
+
+.main-nav {
+    flex-grow: 1;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 35px;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav-link.active {
+    color: #000;
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #000;
+}
+
+.nav-link:hover {
+    color: #000;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+.search-btn:hover {
+    color: #000;
+}
+
+.search-input {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 150px;
+    transition: width 0.3s ease, border-color 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #999;
+    width: 200px;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    margin-top: 60px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #8b9dc3 0%, #dfe3ee 100%);
+}
+
+.hero-image-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+}
+
+.hero-content {
+    position: absolute;
+    left: 80px;
+    bottom: 80px;
+    z-index: 10;
+}
+
+.hero-title {
+    font-size: 48px;
+    font-weight: 600;
+    color: white;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+}
+
+.hero-actions {
+    position: absolute;
+    right: 40px;
+    top: 40px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.view-cars-btn {
+    padding: 10px 20px;
+    background-color: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.view-cars-btn:hover {
+    background-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.cart-btn:hover {
+    opacity: 0.8;
+}
+
+.login-link {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.login-link:hover {
+    opacity: 0.8;
+}
+
+.language-selector {
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.contact-btn {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    transform-origin: center;
+}
+
+.contact-btn:hover {
+    background-color: #000;
+}
+
+/* Auto Section */
+.auto-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.auto-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+}
+
+.auto-content {
+    padding-right: 40px;
+}
+
+.section-title {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 30px;
+    color: #000;
+    letter-spacing: -1px;
+}
+
+.section-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+.learn-more-link {
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease;
+}
+
+.learn-more-link:hover {
+    opacity: 0.7;
+}
+
+.auto-image {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.auto-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Carousel Section */
+.car-carousel {
+    padding: 60px 0;
+    background-color: #f9f9f9;
+    position: relative;
+}
+
+.carousel-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 80px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 30px;
+    align-items: stretch;
+}
+
+.carousel-slide {
+    flex: 1;
+    background-color: #e8e8ea;
+    border-radius: 8px;
+    padding: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+    min-height: 400px;
+}
+
+.carousel-slide.active {
+    background-color: #d4d4d8;
+    transform: scale(1.05);
+}
+
+.car-category {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.car-image-container {
+    position: relative;
+    height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-image-container img {
+    max-width: 90%;
+    height: auto;
+    object-fit: contain;
+}
+
+.car-description {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555;
+}
+
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: white;
+    border: 1px solid #ddd;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    font-size: 18px;
+    color: #666;
+}
+
+.carousel-prev {
+    left: 20px;
+}
+
+.carousel-next {
+    right: 20px;
+}
+
+.carousel-arrow:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.dot.active {
+    background-color: #666;
+}
+
+/* Video Section */
+.video-section {
+    padding: 80px 0;
+    background-color: #fff;
+}
+
+.video-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #000;
+}
+
+.video-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    background-color: #8b9b8b;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.concept-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.6);
+    border: 2px solid white;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: rgba(0,0,0,0.8);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Sameba Section */
+.sameba-section {
+    padding: 80px 0;
+    background-color: #f9f9f9;
+}
+
+.sameba-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.sameba-content {
+    position: relative;
+}
+
+.drop-cap {
+    float: left;
+    font-size: 120px;
+    font-weight: 600;
+    line-height: 0.8;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #000;
+}
+
+.sameba-title {
+    font-size: 32px;
+    font-weight: 600;
+    display: inline;
+    color: #000;
+}
+
+.sameba-text {
+    margin-top: 30px;
+    clear: both;
+}
+
+.sameba-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Alphabet Section */
+.alphabet-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fc 50%, #e8f0f4 100%);
+    position: relative;
+}
+
+.alphabet-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.alphabet-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 40px;
+    color: #000;
+}
+
+.alphabet-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.alphabet-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.alphabet-list li {
+    font-size: 18px;
+    color: #333;
+    padding: 5px 0;
+    transition: color 0.3s ease;
+}
+
+.alphabet-list li:hover {
+    color: #000;
+    font-weight: 600;
+}
+
+.map-decoration {
+    position: absolute;
+    right: 80px;
+    bottom: 80px;
+    opacity: 0.3;
+}
+
+.map-decoration img {
+    width: 200px;
+    height: auto;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .header-container {
+        padding: 0 20px;
+    }
+    
+    .auto-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .carousel-container {
+        padding: 0 60px;
+    }
+    
+    .carousel-track {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-list {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .hero-title {
+        font-size: 36px;
+    }
+    
+    .section-title {
+        font-size: 32px;
+    }
+    
+    .carousel-arrow {
+        display: none;
+    }
+    
+    .hero-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
