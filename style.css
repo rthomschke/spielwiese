@@ -65,16 +65,21 @@ ul {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  /* The magic for dynamic inversion! */
-  mix-blend-mode: difference;
-  color: var(--color-white);
   pointer-events: none;
-  transition: mix-blend-mode 0s; /* Instant swap */
+  
+  /* Glass effect */
+  background: rgba(128, 128, 128, 0.08); /* subtle neutral tint */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15); /* subtle edge */
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 
-/* Enable clicks inside the header */
+/* Enable clicks inside the header and apply dynamic inversion to contents */
 .main-header > * {
   pointer-events: auto;
+  mix-blend-mode: difference;
+  color: var(--color-white);
 }
 
 .logo-text {
@@ -239,6 +244,13 @@ body.menu-open {
 }
 
 body.menu-open .main-header {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+}
+
+body.menu-open .main-header > * {
   mix-blend-mode: normal;
   color: var(--color-white);
 }
