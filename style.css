@@ -198,6 +198,23 @@ ul {
   margin-top: 3rem;
 }
 
+/* Car Section */
+.car-section {
+  gap: 3rem;
+}
+
+.car-image-wrapper {
+  width: 100%;
+  max-width: 900px;
+}
+
+.car-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
 /* Shared Main Padding */
 .main-content {
   padding-top: 10rem;
