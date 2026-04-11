@@ -276,7 +276,7 @@ ul {
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
     z-index: 1050;
-    /* below logo and toggle but above content */
+    isolation: isolate;
   }
 
   .main-nav.open {
@@ -314,6 +314,6 @@ body.menu-open .header-glass {
 }
 
 body.menu-open .main-header {
-  mix-blend-mode: difference;
+  mix-blend-mode: normal;
   color: var(--color-white);
 }
