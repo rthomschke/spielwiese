@@ -51,25 +51,25 @@ document.querySelectorAll('a, button').forEach(el => {
 
 // Navbar scroll transparency
 const headerGlass = document.querySelector('.header-glass');
-const mainHeader = document.querySelector('.main-header');
-const sections = document.querySelectorAll('[data-theme]');
+const mainHeader  = document.querySelector('.main-header');
+const sections    = document.querySelectorAll('[data-theme]');
 
 function updateHeader() {
-  const scrolled = window.scrollY > 10;
-  headerGlass.classList.toggle('scrolled', scrolled);
+  headerGlass.classList.toggle('scrolled', window.scrollY > 10);
 
-  // Find which section is currently behind the navbar
-  const headerBottom = mainHeader.getBoundingClientRect().bottom;
-  let currentTheme = 'dark';
+  // Use the vertical midpoint of the header to detect which section is behind it
+  const headerRect = mainHeader.getBoundingClientRect();
+  const headerMid  = (headerRect.top + headerRect.bottom) / 2;
+
+  let theme = 'dark';
   sections.forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top <= headerBottom && rect.bottom >= 0) {
-      currentTheme = section.dataset.theme;
+    const r = section.getBoundingClientRect();
+    if (r.top <= headerMid && r.bottom >= headerMid) {
+      theme = section.dataset.theme;
     }
   });
 
-  mainHeader.classList.toggle('nav-light', currentTheme === 'light');
-  mainHeader.classList.toggle('nav-dark',  currentTheme === 'dark');
+  mainHeader.classList.toggle('nav-light', theme === 'light');
 }
 
 window.addEventListener('scroll', updateHeader, { passive: true });

@@ -177,10 +177,6 @@ ul {
   color: var(--color-black);
 }
 
-.main-header.nav-dark {
-  color: var(--color-white);
-}
-
 .header-glass {
   position: fixed;
   top: 2rem;
