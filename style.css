@@ -50,8 +50,9 @@
   pointer-events: none;
   z-index: 99999;
   transform: translate(-50%, -50%);
-  transition: width 0.2s ease, height 0.2s ease;
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.3s ease;
   mix-blend-mode: difference;
+  opacity: 0;
 }
 
 .cursor-ring {
@@ -65,8 +66,9 @@
   pointer-events: none;
   z-index: 99998;
   transform: translate(-50%, -50%);
-  transition: width 0.25s ease, height 0.25s ease;
+  transition: width 0.25s ease, height 0.25s ease, opacity 0.3s ease;
   mix-blend-mode: difference;
+  opacity: 0;
 }
 
 .cursor-dot.hovered {
@@ -342,13 +344,7 @@ ul {
   }
 
   .car-section-fullbleed {
-    height: auto;
-    aspect-ratio: 16 / 10;
-  }
-
-  .car-fullbleed-img {
-    object-fit: contain;
-    background-color: #000;
+    height: 56vw;
   }
 }
 

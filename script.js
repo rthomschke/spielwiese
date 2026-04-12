@@ -9,11 +9,29 @@ document.body.appendChild(ring);
 let mouseX = 0, mouseY = 0;
 let ringX = 0, ringY = 0;
 
+let cursorVisible = false;
 document.addEventListener('mousemove', e => {
   mouseX = e.clientX;
   mouseY = e.clientY;
   dot.style.left = mouseX + 'px';
   dot.style.top = mouseY + 'px';
+  if (!cursorVisible) {
+    cursorVisible = true;
+    dot.style.opacity = '1';
+    ring.style.opacity = '1';
+  }
+});
+
+document.addEventListener('mouseleave', () => {
+  dot.style.opacity = '0';
+  ring.style.opacity = '0';
+  cursorVisible = false;
+});
+
+document.addEventListener('mouseenter', () => {
+  dot.style.opacity = '1';
+  ring.style.opacity = '1';
+  cursorVisible = true;
 });
 
 (function animateRing() {
