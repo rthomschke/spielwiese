@@ -311,6 +311,13 @@ ul {
   display: block;
 }
 
+.car-mobile  { display: none; }
+
+@media (max-width: 768px) {
+  .car-desktop { display: none; }
+  .car-mobile  { display: block; }
+}
+
 .car-overlay {
   position: absolute;
   inset: 0;
