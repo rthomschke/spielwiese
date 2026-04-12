@@ -346,11 +346,17 @@ ul {
   }
 
   .car-section-fullbleed {
-    height: 120vw;
+    height: 100vw;
   }
 
   .car-desktop { display: none; }
-  .car-mobile  { display: block; }
+
+  .car-mobile {
+    display: block;
+    left: -100px;
+    right: -100px;
+    width: calc(100% + 200px);
+  }
 }
 
 /* Shared Main Padding */
