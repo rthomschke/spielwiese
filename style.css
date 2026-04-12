@@ -163,11 +163,6 @@ ul {
   align-items: center;
   z-index: 1000;
   pointer-events: none;
-  color: var(--color-black);
-  transition: color 0.4s ease;
-}
-
-.main-header.scrolled {
   color: var(--color-white);
 }
 
