@@ -308,9 +308,6 @@ ul {
   height: 100%;
   object-fit: cover;
   object-position: center 70%;
-  top: -40px;
-  bottom: -40px;
-  height: calc(100% + 80px);
   display: block;
 }
 
