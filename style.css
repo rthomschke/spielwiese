@@ -330,7 +330,7 @@ ul {
 }
 
 .car-title {
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(1.8rem, 8vw, 7rem);
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 1;
