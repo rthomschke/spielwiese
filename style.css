@@ -163,8 +163,12 @@ ul {
   align-items: center;
   z-index: 1000;
   pointer-events: none;
+  color: var(--color-black);
+  transition: color 0.4s ease;
+}
+
+.main-header.scrolled {
   color: var(--color-white);
-  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 
 .header-glass {
