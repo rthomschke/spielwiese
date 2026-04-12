@@ -176,6 +176,7 @@ ul {
 
 .main-header.scrolled {
   mix-blend-mode: difference;
+  isolation: isolate;
 }
 
 .header-glass {
@@ -186,6 +187,7 @@ ul {
   height: 7.25rem;
   background: transparent;
   backdrop-filter: none;
+  isolation: isolate;
   -webkit-backdrop-filter: none;
   border-bottom: 1px solid transparent;
   transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
