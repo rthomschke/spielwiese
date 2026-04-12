@@ -297,7 +297,7 @@ ul {
 .car-section-fullbleed {
   position: relative;
   width: 100%;
-  height: 140vh;
+  height: 115vh;
   overflow: hidden;
 }
 
@@ -307,7 +307,7 @@ ul {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 20%;
   display: block;
 }
 
