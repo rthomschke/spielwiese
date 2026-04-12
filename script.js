@@ -1,4 +1,5 @@
-// Custom Cursor
+// Custom Cursor — only on non-touch devices
+if (window.matchMedia('(pointer: fine)').matches) {
 const dot = document.createElement('div');
 dot.className = 'cursor-dot';
 const ring = document.createElement('div');
@@ -46,6 +47,7 @@ document.querySelectorAll('a, button').forEach(el => {
   el.addEventListener('mouseenter', () => { dot.classList.add('hovered'); ring.classList.add('hovered'); });
   el.addEventListener('mouseleave', () => { dot.classList.remove('hovered'); ring.classList.remove('hovered'); });
 });
+} // end pointer: fine
 
 // Navbar scroll transparency
 const headerGlass = document.querySelector('.header-glass');

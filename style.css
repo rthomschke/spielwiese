@@ -32,11 +32,13 @@
   100% { transform: translateX(-50%); }
 }
 
-/* Custom Cursor */
-*,
-*::before,
-*::after {
-  cursor: none !important;
+/* Custom Cursor — only on non-touch devices */
+@media (pointer: fine) {
+  *,
+  *::before,
+  *::after {
+    cursor: none !important;
+  }
 }
 
 .cursor-dot {
