@@ -179,6 +179,12 @@ ul {
   isolation: isolate;
 }
 
+.main-header.scrolled .logo-text,
+.main-header.scrolled .nav-item,
+.main-header.scrolled .menu-toggle {
+  mix-blend-mode: difference;
+}
+
 .header-glass {
   position: fixed;
   top: 2rem;
