@@ -293,6 +293,14 @@ ul {
   margin-top: 3rem;
 }
 
+.car-mobile  { display: none; }
+.car-desktop { display: block; }
+
+@media (max-width: 768px) {
+  .car-desktop { display: none; }
+  .car-mobile  { display: block; }
+}
+
 /* Car Section — Full Bleed */
 .car-section-fullbleed {
   position: relative;
