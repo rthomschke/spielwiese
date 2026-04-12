@@ -28,12 +28,18 @@
 }
 
 @keyframes ticker-scroll {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /* Custom Cursor — only on non-touch devices */
 @media (pointer: fine) {
+
   *,
   *::before,
   *::after {
@@ -325,7 +331,9 @@ ul {
     height: 130vw;
   }
 
-  .car-desktop { display: none; }
+  .car-desktop {
+    display: none;
+  }
 
   .car-mobile {
     display: block;
@@ -336,14 +344,14 @@ ul {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 28%),
-    linear-gradient(to top,    rgba(0,0,0,0.5)  0%, rgba(0,0,0,0.05) 25%, transparent 55%);
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, transparent 28%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 25%, transparent 55%);
   display: flex;
   align-items: flex-end;
 }
 
 .car-overlay-content {
-  padding: 4rem;
+  padding: 3rem;
   color: #fff;
 }
 
