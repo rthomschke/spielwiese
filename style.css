@@ -340,6 +340,16 @@ ul {
   .car-overlay-content {
     padding: 2rem 1.5rem;
   }
+
+  .car-section-fullbleed {
+    height: auto;
+    aspect-ratio: 16 / 10;
+  }
+
+  .car-fullbleed-img {
+    object-fit: contain;
+    background-color: #000;
+  }
 }
 
 /* Shared Main Padding */
