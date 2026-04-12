@@ -52,15 +52,26 @@ document.querySelectorAll('a, button').forEach(el => {
 // Navbar scroll transparency
 const headerGlass = document.querySelector('.header-glass');
 const mainHeader = document.querySelector('.main-header');
+const sections = document.querySelectorAll('[data-theme]');
+
 function updateHeader() {
-  if (window.scrollY > 10) {
-    headerGlass.classList.add('scrolled');
-    mainHeader.classList.add('scrolled');
-  } else {
-    headerGlass.classList.remove('scrolled');
-    mainHeader.classList.remove('scrolled');
-  }
+  const scrolled = window.scrollY > 10;
+  headerGlass.classList.toggle('scrolled', scrolled);
+
+  // Find which section is currently behind the navbar
+  const headerBottom = mainHeader.getBoundingClientRect().bottom;
+  let currentTheme = 'dark';
+  sections.forEach(section => {
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= headerBottom && rect.bottom >= 0) {
+      currentTheme = section.dataset.theme;
+    }
+  });
+
+  mainHeader.classList.toggle('nav-light', currentTheme === 'light');
+  mainHeader.classList.toggle('nav-dark',  currentTheme === 'dark');
 }
+
 window.addEventListener('scroll', updateHeader, { passive: true });
 updateHeader();
 

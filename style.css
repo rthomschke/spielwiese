@@ -170,19 +170,15 @@ ul {
   z-index: 1000;
   pointer-events: none;
   color: var(--color-white);
-  mix-blend-mode: normal;
-  transition: mix-blend-mode 0s;
+  transition: color 0.3s ease;
 }
 
-.main-header.scrolled {
-  mix-blend-mode: difference;
-  isolation: isolate;
+.main-header.nav-light {
+  color: var(--color-black);
 }
 
-.main-header.scrolled .logo-text,
-.main-header.scrolled .nav-item,
-.main-header.scrolled .menu-toggle {
-  mix-blend-mode: difference;
+.main-header.nav-dark {
+  color: var(--color-white);
 }
 
 .header-glass {
