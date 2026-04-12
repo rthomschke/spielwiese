@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(grep -i -E \"\\\\.\\(png|jpg|jpeg|webp\\)$\")",
-      "Bash(ls -lt /c/Users/benso/Downloads/*.png /c/Users/benso/Downloads/*.PNG)"
+      "Bash(ls -lt /c/Users/benso/Downloads/*.png /c/Users/benso/Downloads/*.PNG)",
+      "Bash(ls /c/Users/benso/Downloads/hochkantauto*)"
     ]
   }
 }

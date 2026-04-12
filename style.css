@@ -286,6 +286,8 @@ ul {
   margin-top: 3rem;
 }
 
+.car-mobile { display: none; }
+
 /* Car Section — Full Bleed */
 .car-section-fullbleed {
   position: relative;
@@ -344,8 +346,11 @@ ul {
   }
 
   .car-section-fullbleed {
-    height: 80vw;
+    height: 120vw;
   }
+
+  .car-desktop { display: none; }
+  .car-mobile  { display: block; }
 }
 
 /* Shared Main Padding */
