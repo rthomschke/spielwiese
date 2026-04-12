@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -i -E \"\\\\.\\(png|jpg|jpeg|webp\\)$\")"
+    ]
+  }
+}
