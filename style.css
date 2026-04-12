@@ -308,9 +308,9 @@ ul {
   position: absolute;
   inset: 0;
   background: linear-gradient(to top,
-      rgba(0, 0, 0, 0.72) 0%,
-      rgba(0, 0, 0, 0.18) 45%,
-      transparent 100%);
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.05) 25%,
+      transparent 55%);
   display: flex;
   align-items: flex-end;
 }
