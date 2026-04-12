@@ -29,6 +29,18 @@ document.querySelectorAll('a, button').forEach(el => {
   el.addEventListener('mouseleave', () => { dot.classList.remove('hovered'); ring.classList.remove('hovered'); });
 });
 
+// Navbar scroll transparency
+const headerGlass = document.querySelector('.header-glass');
+function updateHeader() {
+  if (window.scrollY > 10) {
+    headerGlass.classList.add('scrolled');
+  } else {
+    headerGlass.classList.remove('scrolled');
+  }
+}
+window.addEventListener('scroll', updateHeader, { passive: true });
+updateHeader();
+
 document.addEventListener('DOMContentLoaded', () => {
   const menuToggle = document.querySelector('.menu-toggle');
   const mainNav = document.querySelector('.main-nav');
