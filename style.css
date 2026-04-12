@@ -164,6 +164,12 @@ ul {
   z-index: 1000;
   pointer-events: none;
   color: var(--color-white);
+  mix-blend-mode: normal;
+  transition: mix-blend-mode 0s;
+}
+
+.main-header.scrolled {
+  mix-blend-mode: difference;
 }
 
 .header-glass {
