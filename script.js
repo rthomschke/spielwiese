@@ -51,14 +51,11 @@ document.querySelectorAll('a, button').forEach(el => {
 
 // Navbar scroll transparency
 const headerGlass = document.querySelector('.header-glass');
-const mainHeader = document.querySelector('.main-header');
 function updateHeader() {
   if (window.scrollY > 10) {
     headerGlass.classList.add('scrolled');
-    mainHeader.classList.add('scrolled');
   } else {
     headerGlass.classList.remove('scrolled');
-    mainHeader.classList.remove('scrolled');
   }
 }
 window.addEventListener('scroll', updateHeader, { passive: true });
