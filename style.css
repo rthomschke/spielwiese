@@ -116,7 +116,7 @@ html {
 }
 
 body {
-  background-color: #0a0a0a;
+  background-color: #f2f0eb;
   color: var(--color-black);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -513,7 +513,7 @@ body.menu-open .main-header {
   grid-template-rows: 280px 280px 300px;
   gap: 0.625rem;
   padding: 11rem 0.625rem 0.625rem;
-  background: #0a0a0a;
+  background: #f2f0eb;
   min-height: 100vh;
 }
 
@@ -524,10 +524,10 @@ body.menu-open .main-header {
 }
 
 /* Layout positions */
-.cell-hero     { grid-column: 1 / 9;  grid-row: 1 / 3; background: #111; }
-.cell-tag      { grid-column: 9 / 13; grid-row: 1 / 2; background: #141414; padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; }
-.cell-function { grid-column: 9 / 13; grid-row: 2 / 3; background: #eeebe3; color: #0a0a0a; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; }
-.cell-stat     { grid-column: 1 / 4;  grid-row: 3 / 4; background: #141414; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
+.cell-hero     { grid-column: 1 / 9;  grid-row: 1 / 3; background: #d8d5ce; }
+.cell-tag      { grid-column: 9 / 13; grid-row: 1 / 2; background: #e8e5de; padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; color: #0a0a0a; }
+.cell-function { grid-column: 9 / 13; grid-row: 2 / 3; background: #0a0a0a; color: #fff; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+.cell-stat     { grid-column: 1 / 4;  grid-row: 3 / 4; background: #e8e5de; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; color: #0a0a0a; }
 .cell-connect  { grid-column: 4 / 13; grid-row: 3 / 4; background: #111; }
 
 /* Image fills */
@@ -591,8 +591,8 @@ body.menu-open .main-header {
 }
 
 .bento-body--dark {
-  opacity: 0.5;
-  color: #0a0a0a;
+  opacity: 0.55;
+  color: #fff;
 }
 
 .bento-cta-link {
@@ -602,7 +602,7 @@ body.menu-open .main-header {
   font-size: 1.1rem;
   font-weight: 500;
   letter-spacing: 0.05em;
-  color: #fff;
+  color: #0a0a0a;
   text-decoration: none;
   transition: opacity 0.25s ease;
 }
