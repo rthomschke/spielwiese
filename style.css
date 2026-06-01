@@ -116,7 +116,7 @@ html {
 }
 
 body {
-  background-color: rgb(202, 193, 113);
+  background-color: #0a0a0a;
   color: var(--color-black);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -310,6 +310,7 @@ ul {
   display: block;
   width: 100%;
   height: auto;
+  filter: brightness(0.7);
 }
 
 .car-desktop {
@@ -344,8 +345,9 @@ ul {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, transparent 28%),
-    linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.05) 25%, transparent 55%);
+    rgba(0, 0, 0, 0.45),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, transparent 35%),
+    linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.2) 30%, transparent 60%);
   display: flex;
   align-items: flex-end;
 }
@@ -353,6 +355,7 @@ ul {
 .car-overlay-content {
   padding: 3rem;
   color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
 }
 
 .car-label {
@@ -501,4 +504,136 @@ body.menu-open .header-glass {
 body.menu-open .main-header {
   mix-blend-mode: normal;
   color: var(--color-white);
+}
+
+/* ── Bento Grid ─────────────────────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 280px 280px 300px;
+  gap: 0.625rem;
+  padding: 11rem 0.625rem 0.625rem;
+  background: #0a0a0a;
+  min-height: 100vh;
+}
+
+.bento-cell {
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Layout positions */
+.cell-hero     { grid-column: 1 / 9;  grid-row: 1 / 3; background: #111; }
+.cell-tag      { grid-column: 9 / 13; grid-row: 1 / 2; background: #141414; padding: 2.5rem; display: flex; flex-direction: column; justify-content: flex-end; color: #fff; }
+.cell-function { grid-column: 9 / 13; grid-row: 2 / 3; background: #eeebe3; color: #0a0a0a; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+.cell-stat     { grid-column: 1 / 4;  grid-row: 3 / 4; background: #141414; padding: 2.5rem; display: flex; flex-direction: column; justify-content: space-between; color: #fff; }
+.cell-connect  { grid-column: 4 / 13; grid-row: 3 / 4; background: #111; }
+
+/* Image fills */
+.bento-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+/* Overlay content over images */
+.bento-cell-inner {
+  position: absolute;
+  inset: 0;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background:
+    linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 40%, transparent 70%);
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+
+/* Typography */
+.bento-eyebrow {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.55;
+  margin-bottom: 0.75rem;
+}
+
+.bento-title {
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.bento-title-lg {
+  font-size: clamp(1.6rem, 3.2vw, 3.25rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.bento-body {
+  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  opacity: 0.55;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.bento-body--dark {
+  opacity: 0.5;
+  color: #0a0a0a;
+}
+
+.bento-cta-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: #fff;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+}
+
+.bento-cta-link:hover { opacity: 0.5; }
+
+.bento-arrow {
+  font-size: 1.25rem;
+  transition: transform 0.25s ease;
+}
+
+.bento-cta-link:hover .bento-arrow { transform: translateX(4px); }
+
+/* Mobile: stack to single column */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding-top: 8rem;
+  }
+
+  .cell-hero,
+  .cell-tag,
+  .cell-function,
+  .cell-stat,
+  .cell-connect {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 280px;
+  }
+
+  .cell-tag,
+  .cell-stat { min-height: 180px; }
 }

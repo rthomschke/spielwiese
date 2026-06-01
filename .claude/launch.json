@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "spielwiese (main site)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "5501", "."],
+      "port": 5501
+    },
+    {
+      "name": "memorial-bloom",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "5502", "memorial-bloom"],
+      "port": 5502
+    },
+    {
+      "name": "folia-urnen",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "5503", "folia-urnen"],
+      "port": 5503
+    }
+  ]
+}

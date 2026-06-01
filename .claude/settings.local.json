@@ -6,7 +6,16 @@
       "Bash(ls /c/Users/benso/Downloads/hochkantauto*)",
       "Bash(ls /c/Users/benso/Downloads/nummer2hochkant*)",
       "Bash(ls /c/Users/benso/Downloads/treppppen*)",
-      "Bash(ls /c/Users/benso/Downloads/breitbildauto*)"
+      "Bash(ls /c/Users/benso/Downloads/breitbildauto*)",
+      "Bash(grep -v \"^\\\\.\\\\.$\")",
+      "Bash(grep -v \"^\\\\.$\")",
+      "Bash(find . -type f -not -path \"./.git/*\" -not -path \"./.claude/*\" -not -path \"./images/*\" -exec grep -l \"dev\\\\|start\\\\|serve\\\\|port\\\\|server\" {} \\\\;)",
+      "Bash(git config *)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(unzip -o \"urne v3.zip\" -d \"urne_v3_extracted\")",
+      "Bash(zip -r \"/c/Users/benso/Downloads/folia-urnen-backup-2026-05-03.zip\" \"folia-urnen-backup-2026-05-03\")",
+      "Read(//c/Users/benso/Downloads/**)",
+      "Bash(powershell.exe -Command \"Compress-Archive -Path 'folia-urnen-backup-2026-05-03' -DestinationPath 'C:/Users/benso/Downloads/folia-urnen-backup-2026-05-03.zip' -Force\")"
     ]
   }
 }

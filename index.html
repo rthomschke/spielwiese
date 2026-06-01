@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        body { background-color: #ffffff; }
+        body { background-color: #0a0a0a; }
         @media (max-width: 768px) {
             .main-nav { background-color: #000000; }
         }
@@ -51,33 +51,39 @@
     </header>
 
     <main>
-        <!-- Hero Section: Full-bleed Car Image -->
-        <section class="car-section-fullbleed" data-theme="dark">
-            <img src="images/genesis-desktop.png" alt="Concept Car" class="car-fullbleed-img car-desktop">
-            <img src="images/genesis-mobile.png" alt="Concept Car" class="car-fullbleed-img car-mobile">
-            <div class="car-overlay">
-                <div class="car-overlay-content">
-                    <p class="car-label">Concept Design</p>
-                    <h2 class="car-title">Pure Form</h2>
+        <section class="bento-grid">
+
+            <div class="bento-cell cell-hero">
+                <img src="images/genesis-desktop.png" alt="Concept Car" class="bento-img">
+                <div class="bento-cell-inner">
+                    <span class="bento-eyebrow">Concept Design</span>
+                    <h2 class="bento-title">Pure<br>Form</h2>
                 </div>
             </div>
-        </section>
 
-        <!-- Second Section: White Background -->
-        <section class="content-section bg-white hero-section" data-theme="light">
-            <h2 class="fluid-h1">Function Priority</h2>
-            <p class="fluid-text spacing-top">No borders, no shadows. Just typography and whitespace.</p>
-        </section>
+            <div class="bento-cell cell-tag">
+                <span class="bento-eyebrow">Est. 2026</span>
+                <p class="bento-body">Minimalist design.<br>Maximum impact.</p>
+            </div>
 
-        <!-- Third Section: Full-bleed Rear Car Image -->
-        <section class="car-section-fullbleed" data-theme="dark">
-            <img src="images/treppen.png" alt="Let's Connect" class="car-fullbleed-img">
-            <div class="car-overlay">
-                <div class="car-overlay-content">
-                    <p class="car-label">Available for opportunities</p>
-                    <h2 class="car-title"><a href="contact.html">Let's Connect</a></h2>
+            <div class="bento-cell cell-function">
+                <h2 class="bento-title-lg">Function<br>Priority</h2>
+                <p class="bento-body bento-body--dark">No borders, no shadows.<br>Just typography and whitespace.</p>
+            </div>
+
+            <div class="bento-cell cell-stat">
+                <span class="bento-eyebrow">Available now</span>
+                <a href="contact.html" class="bento-cta-link">Contact<span class="bento-arrow">→</span></a>
+            </div>
+
+            <div class="bento-cell cell-connect">
+                <img src="images/treppen.png" alt="Let's Connect" class="bento-img">
+                <div class="bento-cell-inner">
+                    <span class="bento-eyebrow">Available for opportunities</span>
+                    <h2 class="bento-title"><a href="contact.html">Let's Connect</a></h2>
                 </div>
             </div>
+
         </section>
     </main>
 
