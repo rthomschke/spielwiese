@@ -33,8 +33,10 @@
 
   /* ───────── Navbar ───────── */
   .nav-wrap{
-    position:sticky;
+    position:fixed;
     top:18px;
+    left:0;
+    right:0;
     z-index:50;
     padding:0 clamp(16px,2.8vw,42px);
     transition:transform .45s cubic-bezier(.6,.05,.1,1);
@@ -45,14 +47,14 @@
     margin:0 auto;
     display:flex;
     align-items:flex-start;
-    gap:clamp(6px,.7vw,12px);
+    gap:clamp(4px,.4vw,6px);
   }
   .nav{
     flex:1 1 auto;
     min-width:0;
-    background:var(--card);
+    background:#fff;
     border-radius:var(--radius);
-    box-shadow:inset 0 0 0 1px var(--line), 0 4px 4px rgba(0,0,0,.25);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.08);
     overflow:hidden;
   }
   .nav-top{
@@ -164,9 +166,9 @@
     height:96px;
     padding:0 clamp(22px,2vw,38px);
     border-radius:var(--radius);
-    background:var(--card);color:var(--ink);
+    background:#fff;color:var(--ink);
     text-decoration:none;font-size:16px;font-weight:500;letter-spacing:-.01em;
-    box-shadow:inset 0 0 0 1px var(--line), 0 4px 4px rgba(0,0,0,.25);
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.08);
     white-space:nowrap;
     transition:height .4s cubic-bezier(.6,.05,.1,1), opacity .2s ease;
   }
@@ -177,24 +179,25 @@
   .nav-tools{
     flex:0 0 auto;
     display:flex;flex-direction:column;
-    gap:clamp(6px,.7vw,12px);
+    gap:clamp(4px,.4vw,6px);
     height:96px;
     transition:height .4s cubic-bezier(.6,.05,.1,1);
   }
   .nav-condensed .nav-tools{height:66px;}
   .nav-tool{
-    flex:1;width:45px;
-    display:flex;align-items:center;justify-content:center;
-    border:none;cursor:pointer;padding:0;
+    flex:1;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    border:none;cursor:pointer;padding:0 clamp(14px,1.4vw,22px);
     border-radius:var(--radius);
-    background:var(--card);color:var(--ink);
-    box-shadow:inset 0 0 0 1px var(--line), 0 4px 4px rgba(0,0,0,.25);
-    font-size:15px;font-weight:600;letter-spacing:-.02em;
+    background:#fff;color:var(--ink);
+    white-space:nowrap;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.18), 0 8px 32px rgba(0,0,0,.08);
+    font-size:13px;font-weight:500;letter-spacing:-.01em;
     transition:opacity .2s ease,background .25s ease,color .25s ease;
   }
-  .nav-tool svg{width:18px;height:18px;display:block;}
+  .nav-tool svg{width:16px;height:16px;display:block;flex-shrink:0;}
   .nav-tool:hover{opacity:.82;}
-  .nav-tool.active{background:var(--ink);color:var(--bg);box-shadow:0 4px 4px rgba(0,0,0,.25);}
+  .nav-tool.active{background:var(--ink);color:var(--bg);box-shadow:0 8px 32px rgba(0,0,0,.12);}
   @media(max-width:600px){.nav-tools{display:none;}}
 
   /* ───────── Hero ───────── */
@@ -449,6 +452,105 @@
   html[data-fs="1"]{zoom:1.1;}
   html[data-fs="2"]{zoom:1.2;}
 
+  /* ───────── Scroll Video Header ───────── */
+  .video-scroll-section{
+    height:400vh;
+    position:relative;
+  }
+  .video-sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow:hidden;
+    background:#000;
+  }
+  .scroll-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    will-change:transform;
+  }
+  .video-overlay{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    justify-content:flex-end;
+    padding:clamp(28px,4vw,56px);
+    z-index:2;
+    pointer-events:none;
+  }
+  .video-logo{
+    font-weight:700;
+    font-size:clamp(22px,2.5vw,32px);
+    letter-spacing:-.03em;
+    color:#fff;
+    position:absolute;
+    top:28px;
+    left:clamp(20px,3vw,48px);
+    pointer-events:auto;
+    text-decoration:none;
+    mix-blend-mode:difference;
+  }
+  .video-headline{
+    font-size:clamp(32px,5.5vw,76px);
+    font-weight:600;
+    letter-spacing:-.04em;
+    line-height:1.02;
+    color:#fff;
+    text-wrap:balance;
+    max-width:16ch;
+    text-shadow:0 2px 40px rgba(0,0,0,.35);
+    opacity:1;
+    transition:opacity .5s ease;
+  }
+  .video-sub{
+    font-size:clamp(15px,1.3vw,19px);
+    font-weight:300;
+    color:rgba(255,255,255,.75);
+    margin-top:clamp(10px,1.5vw,16px);
+    letter-spacing:.01em;
+    text-shadow:0 1px 20px rgba(0,0,0,.4);
+  }
+  .video-scroll-hint{
+    position:absolute;
+    bottom:clamp(24px,4vw,44px);
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    color:rgba(255,255,255,.6);
+    font-size:12px;
+    font-weight:400;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    pointer-events:none;
+  }
+  .video-scroll-hint svg{
+    width:20px;height:20px;
+    animation:scrollBounce 1.6s ease-in-out infinite;
+  }
+  @keyframes scrollBounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(6px);}
+  }
+  .video-progress{
+    position:absolute;
+    bottom:0;
+    left:0;
+    height:2px;
+    background:rgba(255,255,255,.5);
+    width:0%;
+    transition:width .05s linear;
+    z-index:3;
+  }
+
   /* ───────── Grain overlay ───────── */
   body::after{
     content:'';
@@ -465,6 +567,24 @@
 </style>
 </head>
 <body>
+
+  <!-- ───────── Scroll Video Header ───────── -->
+  <section class="video-scroll-section" id="video-header">
+    <div class="video-sticky">
+      <canvas id="scroll-canvas" class="scroll-video"></canvas>
+      <div class="video-overlay">
+        <h1 class="video-headline">Wir gestalten Websites, die&nbsp;arbeiten.</h1>
+        <p class="video-sub">Scroll, um mehr zu entdecken</p>
+        <div class="video-scroll-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+          <span>Scroll</span>
+        </div>
+      </div>
+      <div class="video-progress" id="video-progress"></div>
+    </div>
+  </section>
 
   <div class="nav-wrap">
     <div class="nav-row">
@@ -491,6 +611,7 @@
       <div class="nav-tools">
         <button class="nav-tool" id="darkToggle" aria-label="Dark Mode umschalten" title="Dark Mode">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          <span>Dark</span>
         </button>
         <button class="nav-tool" id="fontToggle" aria-label="Schrift vergrößern" title="Schrift vergrößern">A+</button>
       </div>
@@ -657,6 +778,77 @@
   </footer>
 
 <script>
+  // ── Scroll Video Header — Canvas Frame Sequence (butter-smooth)
+  (function(){
+    const section     = document.getElementById('video-header');
+    const canvas      = document.getElementById('scroll-canvas');
+    const progressBar = document.getElementById('video-progress');
+    if(!section || !canvas) return;
+
+    const ctx        = canvas.getContext('2d');
+    const TOTAL      = 240;
+    const images     = new Array(TOTAL);
+    let   loaded     = 0;
+    let   currentIdx = -1;
+    let   scrollProg = 0;
+
+    function resize(){
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      drawFrame(currentIdx < 0 ? 0 : currentIdx);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function drawFrame(idx){
+      idx = Math.max(0, Math.min(TOTAL - 1, idx));
+      if(currentIdx === idx) return;
+      currentIdx = idx;
+      const img = images[idx];
+      if(!img || !img.complete) return;
+      canvas.width  = canvas.width; // clear
+      const cw = canvas.width, ch = canvas.height;
+      const iw = img.naturalWidth,  ih = img.naturalHeight;
+      const scale = Math.max(cw / iw, ch / ih);
+      const w = iw * scale, h = ih * scale;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    }
+
+    // RAF loop — instant, no seeking
+    (function loop(){
+      requestAnimationFrame(loop);
+      const rect     = section.getBoundingClientRect();
+      const scrollable = section.offsetHeight - window.innerHeight;
+      scrollProg     = Math.max(0, Math.min(1, -rect.top / scrollable));
+      const idx      = Math.round(scrollProg * (TOTAL - 1));
+      drawFrame(idx);
+      if(progressBar) progressBar.style.width = (scrollProg * 100) + '%';
+    })();
+
+    // Preload all frames — prioritise first 10 immediately
+    function loadFrame(i){
+      const img = new Image();
+      img.onload = () => {
+        images[i] = img;
+        loaded++;
+        if(i === 0) drawFrame(0);
+      };
+      img.src = 'assets/frames/frame' + String(i + 1).padStart(4, '0') + '.jpg';
+      images[i] = img;
+    }
+    // First 10 eagerly, rest in idle
+    for(let i = 0; i < 10; i++) loadFrame(i);
+    let next = 10;
+    function idleLoad(deadline){
+      while((deadline.timeRemaining() > 2 || deadline.didTimeout) && next < TOTAL){
+        loadFrame(next++);
+      }
+      if(next < TOTAL) requestIdleCallback(idleLoad, { timeout: 200 });
+    }
+    if('requestIdleCallback' in window) requestIdleCallback(idleLoad, { timeout: 200 });
+    else for(let i = 10; i < TOTAL; i++) loadFrame(i);
+  })();
+
   const burger  = document.getElementById('burger');
   const menu    = document.getElementById('menu');
   const navWrap = document.querySelector('.nav-wrap');
