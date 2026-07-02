@@ -34,14 +34,32 @@
   /* ───────── Navbar ───────── */
   .nav-wrap{
     position:fixed;
-    top:18px;
+    top:clamp(16px,2.8vw,42px);
     left:0;
     right:0;
     z-index:50;
     padding:0 clamp(16px,2.8vw,42px);
-    transition:transform .45s cubic-bezier(.6,.05,.1,1);
+    transition:transform .6s cubic-bezier(.6,.05,.1,1),
+               left .6s cubic-bezier(.6,.05,.1,1),
+               right .6s cubic-bezier(.6,.05,.1,1),
+               top .6s cubic-bezier(.6,.05,.1,1),
+               padding .6s cubic-bezier(.6,.05,.1,1);
   }
   .nav-wrap.nav-hidden{transform:translateY(-150%);}
+  .nav-wrap.nav-in-video{
+    left:calc(100vw - 640px - clamp(36px,5.6vw,82px));
+    right:calc(clamp(16px,2.8vw,42px) + 20px);
+    top:calc(clamp(16px,2.8vw,42px) + 16px);
+    padding:0;
+  }
+  .nav-wrap.nav-in-video .nav-row{
+    max-width:none;
+    margin:0;
+    flex-direction:row-reverse;
+  }
+  .nav-wrap.nav-in-video .nav{
+    border-top-right-radius:20px;
+  }
   .nav-row{
     max-width:1511px;
     margin:0 auto;
@@ -459,10 +477,12 @@
   }
   .video-sticky{
     position:sticky;
-    top:0;
-    height:100vh;
-    overflow:hidden;
+    top:clamp(8px,1.2vw,16px);
+    height:calc(100vh - clamp(16px,2.4vw,32px) - var(--vm-extra,0px));
     background:#000;
+    border-radius:20px;
+    overflow:hidden;
+    margin:0 calc(clamp(8px,1.2vw,16px) + var(--vm-extra,0px)) var(--vm-extra,0px);
   }
   .scroll-video{
     position:absolute;
@@ -540,6 +560,98 @@
     0%,100%{transform:translateY(0);}
     50%{transform:translateY(6px);}
   }
+  /* ── Bento Menu Panel ── */
+  .bento-menu-panel{
+    position:fixed;
+    top:clamp(8px,1.2vw,16px);
+    right:clamp(8px,1.2vw,16px);
+    width:clamp(260px,26vw,340px);
+    bottom:clamp(8px,1.2vw,16px);
+    z-index:48;
+    display:grid;
+    grid-template-rows:auto 1fr 1fr 1fr auto;
+    gap:8px;
+    transform:translateX(calc(100% + clamp(8px,1.2vw,16px) + 8px));
+    transition:transform .55s cubic-bezier(.6,.05,.1,1);
+    pointer-events:none;
+  }
+  .bento-menu-panel.open{
+    transform:translateX(0);
+    pointer-events:auto;
+  }
+  .bento-menu-panel .bc{
+    background:#fff;
+    border-radius:14px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.1), 0 8px 32px rgba(0,0,0,.08);
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding:clamp(16px,1.8vw,24px);
+    overflow:hidden;
+    position:relative;
+    text-decoration:none;
+    color:var(--ink);
+    transition:background .2s ease;
+    border:none;cursor:pointer;
+  }
+  .bento-menu-panel .bc:hover{background:#f4f4f2;}
+  .bento-menu-panel .bc-label{
+    font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:6px;
+  }
+  .bento-menu-panel .bc-title{
+    font-size:clamp(20px,2vw,28px);font-weight:600;letter-spacing:-.03em;line-height:1;
+    color:var(--ink);
+  }
+  .bento-menu-panel .bc-logo{
+    flex-direction:row;justify-content:space-between;align-items:center;
+    padding:clamp(14px,1.5vw,20px) clamp(16px,1.8vw,24px);
+    min-height:0;
+  }
+  .bento-menu-panel .bc-logo-link{
+    font-weight:700;font-size:clamp(16px,1.6vw,22px);letter-spacing:-.03em;
+    color:var(--ink);text-decoration:none;
+  }
+  .bento-menu-panel .bc-close{
+    background:none;border:none;cursor:pointer;
+    font-size:18px;color:var(--muted);padding:4px;line-height:1;
+    transition:color .2s;
+  }
+  .bento-menu-panel .bc-close:hover{color:var(--ink);}
+  .bento-menu-panel .bc-row{display:grid;grid-template-columns:1fr auto;gap:8px;}
+  .bento-menu-panel .bc-row-col{display:flex;flex-direction:column;gap:8px;}
+  .bento-menu-panel .bc-tool{
+    flex:1;justify-content:center;align-items:center;gap:6px;
+    flex-direction:row;font-size:13px;font-weight:500;
+    width:72px;
+  }
+  .bento-menu-panel .bc-tool svg{width:15px;height:15px;flex-shrink:0;}
+  .bento-menu-panel .bc-cta{
+    background:var(--ink);
+  }
+  .bento-menu-panel .bc-cta .bc-label{color:rgba(255,255,255,.5);}
+  .bento-menu-panel .bc-cta .bc-title{color:#fff;}
+  .bento-menu-panel .bc-cta:hover{background:#222;}
+
+  /* nav-wrap fades when bento open */
+  .nav-wrap{
+    transition:transform .6s cubic-bezier(.6,.05,.1,1),
+               left .6s cubic-bezier(.6,.05,.1,1),
+               right .6s cubic-bezier(.6,.05,.1,1),
+               top .6s cubic-bezier(.6,.05,.1,1),
+               padding .6s cubic-bezier(.6,.05,.1,1),
+               opacity .35s ease;
+  }
+  body.bento-open .nav-wrap{opacity:0;pointer-events:none;}
+
+  /* video shrinks right when bento open */
+  .video-sticky{
+    transition:margin .55s cubic-bezier(.6,.05,.1,1);
+  }
+  body.bento-open .video-sticky{
+    margin-right:calc(clamp(8px,1.2vw,16px) + clamp(260px,26vw,340px) + 8px) !important;
+  }
+
   .video-progress{
     position:absolute;
     bottom:0;
@@ -616,6 +728,39 @@
         <button class="nav-tool" id="fontToggle" aria-label="Schrift vergrößern" title="Schrift vergrößern">A+</button>
       </div>
     </div>
+  </div>
+
+  <!-- ───────── Bento Menu Panel ───────── -->
+  <div class="bento-menu-panel" id="bentoMenuPanel">
+    <div class="bc bc-logo">
+      <a href="#" class="bc-logo-link">bensoncharly</a>
+      <button class="bc-close" id="bentoClose" aria-label="Menü schließen">✕</button>
+    </div>
+    <a class="bc bc-link" href="#arbeiten">
+      <span class="bc-label">01</span>
+      <span class="bc-title">Arbeiten</span>
+    </a>
+    <a class="bc bc-link" href="#leistungen">
+      <span class="bc-label">02</span>
+      <span class="bc-title">Leistungen</span>
+    </a>
+    <div class="bc-row">
+      <a class="bc bc-link" href="#prozess">
+        <span class="bc-label">03</span>
+        <span class="bc-title">Prozess</span>
+      </a>
+      <div class="bc-row-col">
+        <button class="bc bc-tool" id="bentoDarkToggle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg>
+          <span>Dark</span>
+        </button>
+        <button class="bc bc-tool" id="bentoFontToggle">A+</button>
+      </div>
+    </div>
+    <a class="bc bc-cta" href="#kontakt">
+      <span class="bc-label">Jetzt starten</span>
+      <span class="bc-title">Projekt anfragen →</span>
+    </a>
   </div>
 
   <!-- ───────── Hero ───────── -->
@@ -809,12 +954,13 @@
       canvas.width  = canvas.width; // clear
       const cw = canvas.width, ch = canvas.height;
       const iw = img.naturalWidth,  ih = img.naturalHeight;
-      const scale = Math.max(cw / iw, ch / ih);
+      const scale = Math.max(cw / iw, ch / ih) * 1.1;
       const w = iw * scale, h = ih * scale;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      ctx.drawImage(img, (cw - w) / 2 + cw * 0.04, (ch - h) / 2, w, h);
     }
 
     // RAF loop — instant, no seeking
+    const videoSticky = document.querySelector('.video-sticky');
     (function loop(){
       requestAnimationFrame(loop);
       const rect     = section.getBoundingClientRect();
@@ -823,6 +969,7 @@
       const idx      = Math.round(scrollProg * (TOTAL - 1));
       drawFrame(idx);
       if(progressBar) progressBar.style.width = (scrollProg * 100) + '%';
+      if(videoSticky) videoSticky.style.setProperty('--vm-extra', (scrollProg * 56).toFixed(1) + 'px');
     })();
 
     // Preload all frames — prioritise first 10 immediately
@@ -849,20 +996,36 @@
     else for(let i = 10; i < TOTAL; i++) loadFrame(i);
   })();
 
-  const burger  = document.getElementById('burger');
-  const menu    = document.getElementById('menu');
-  const navWrap = document.querySelector('.nav-wrap');
+  const burger         = document.getElementById('burger');
+  const menu           = document.getElementById('menu');
+  const navWrap        = document.querySelector('.nav-wrap');
+  const bentoMenuPanel = document.getElementById('bentoMenuPanel');
+  const bentoClose     = document.getElementById('bentoClose');
+
+  function closeBentoMenu(){
+    burger.classList.remove('open');
+    bentoMenuPanel.classList.remove('open');
+    document.body.classList.remove('bento-open');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Menü öffnen');
+  }
 
   burger.addEventListener('click', () => {
     const open = burger.classList.toggle('open');
-    menu.classList.toggle('open', open);
+    bentoMenuPanel.classList.toggle('open', open);
+    document.body.classList.toggle('bento-open', open);
     burger.setAttribute('aria-expanded', open);
     burger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
   });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    burger.classList.remove('open');
-    menu.classList.remove('open');
-  }));
+  bentoClose.addEventListener('click', closeBentoMenu);
+  bentoMenuPanel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeBentoMenu));
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeBentoMenu));
+
+  // Bento tool buttons mirror the main ones
+  document.getElementById('bentoDarkToggle').addEventListener('click', () =>
+    document.getElementById('darkToggle').click());
+  document.getElementById('bentoFontToggle').addEventListener('click', () =>
+    document.getElementById('fontToggle').click());
 
   // Auto-hide / reveal + Verdichten
   let lastY = window.scrollY, ticking = false;
@@ -870,10 +1033,14 @@
     ticking = false;
     const y = window.scrollY;
     document.body.classList.toggle('nav-condensed', y > 40);
-    if(!menu.classList.contains('open')) {
+    const videoSec = document.getElementById('video-header');
+    const inVideo = videoSec ? y < videoSec.offsetTop + videoSec.offsetHeight - window.innerHeight : false;
+    navWrap.classList.toggle('nav-in-video', inVideo);
+    if(!menu.classList.contains('open') && !inVideo) {
       if(y > lastY && y > 160) navWrap.classList.add('nav-hidden');
       else if(y < lastY)       navWrap.classList.remove('nav-hidden');
     }
+    if(inVideo) navWrap.classList.remove('nav-hidden');
     lastY = y;
   }
   window.addEventListener('scroll', () => {
