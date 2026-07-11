@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Zoom — bensoncharly</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:     #e8e8e6;
+    --ink:    #000;
+    --muted:  #888;
+    --line:   rgba(0,0,0,.12);
+    --accent: #C4633B;
+    --radius: 7px;
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    font-family: 'Outfit', sans-serif;
+    background: #111;
+  }
+
+  /* ─── World stage ─── */
+  #wz-stage {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  #wz-world {
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    transform-origin: 0 50%;
+    will-change: transform;
+  }
+
+  .wz-page {
+    width: 100vw;
+    height: 100vh;
+    flex: 0 0 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    scrollbar-width: none;
+  }
+  .wz-page::-webkit-scrollbar { display: none; }
+
+  /* During zoom-out each page gets a card outline */
+  #wz-world.zooming .wz-page {
+    outline: 1px solid rgba(255,255,255,.08);
+    border-radius: 4px;
+  }
+
+  /* ─── Page dots ─── */
+  #wz-dots {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 200;
+    pointer-events: none;
+  }
+  .wz-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.3);
+    transition: background .4s, transform .4s;
+    cursor: pointer;
+    pointer-events: auto;
+  }
+  .wz-dot.on { background: #fff; transform: scale(1.3); }
+
+  /* ─── Hint ─── */
+  #wz-hint {
+    position: fixed;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.35);
+    z-index: 200;
+    pointer-events: none;
+    transition: opacity .5s;
+    white-space: nowrap;
+  }
+  #wz-hint.hidden { opacity: 0; }
+
+  /* ─── Bottom scroll hint ─── */
+  .wz-scroll-hint {
+    position: sticky;
+    bottom: 0;
+    left: 0; right: 0;
+    padding: 18px clamp(24px,4vw,64px);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .4s, transform .4s;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .wz-scroll-hint.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .wz-scroll-hint-label {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .wz-progress-track {
+    flex: 1;
+    height: 2px;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .wz-progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 1px;
+    transition: width .08s linear;
+  }
+  .wz-page-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(18px, 2.5vw, 34px);
+    font-weight: 600;
+    letter-spacing: -.025em;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .35s;
+    z-index: 5;
+    text-align: center;
+  }
+  #wz-world.zooming .wz-page-label { opacity: 1; }
+
+
+  /* ══════════════════════════════
+       PAGE 0 — Home
+  ══════════════════════════════ */
+  #pg0 { background: var(--bg); }
+
+  .p0-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(232,232,230,.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: clamp(14px,1.8vw,22px) clamp(24px,3.5vw,56px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--line);
+  }
+  .p0-logo {
+    font-size: clamp(18px,2vw,24px);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .p0-nav-right { display: flex; align-items: center; gap: 24px; }
+  .p0-nav-link {
+    font-size: 15px; font-weight: 400; color: var(--muted);
+    text-decoration: none; transition: color .2s;
+  }
+  .p0-nav-link:hover { color: var(--ink); }
+  .p0-cta {
+    font-size: 15px; font-weight: 500; color: var(--ink); text-decoration: none;
+    border: 1px solid rgba(0,0,0,.22); padding: 10px 20px;
+    border-radius: var(--radius); transition: background .2s, border-color .2s;
+    white-space: nowrap;
+  }
+  .p0-cta:hover { background: #fff; border-color: var(--ink); }
+
+  .p0-hero {
+    padding: clamp(64px,8vw,120px) clamp(24px,4vw,64px);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .eyebrow {
+    font-size: 12px; font-weight: 500; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--accent); display: inline-block; flex: 0 0 auto;
+  }
+  .p0-h1 {
+    font-size: clamp(52px, 8vw, 120px);
+    font-weight: 600;
+    letter-spacing: -.045em;
+    line-height: .96;
+    color: var(--ink);
+    margin-bottom: clamp(28px, 4vw, 48px);
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  .p0-lead {
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 300; line-height: 1.55;
+    color: #555; max-width: 48ch;
+    margin-bottom: clamp(36px, 4vw, 52px);
+  }
+  .p0-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 15px 26px; border-radius: var(--radius);
+    font-size: 16px; font-weight: 500; text-decoration: none;
+    cursor: pointer; border: none; font-family: inherit;
+    transition: transform .3s cubic-bezier(.6,.05,.1,1), opacity .2s;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-dark { background: var(--ink); color: #fff; box-shadow: 0 6px 22px rgba(0,0,0,.18); }
+  .btn-ghost { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px rgba(0,0,0,.22); }
+
+  /* Services list */
+  .p0-services {
+    padding: clamp(40px,5vw,80px) clamp(24px,4vw,64px);
+    max-width: 1400px; margin: 0 auto;
+    border-top: 1px solid var(--line);
+  }
+  .p0-svc {
+    display: grid;
+    grid-template-columns: 52px 1fr 1.5fr;
+    gap: clamp(12px,3vw,48px);
+    align-items: baseline;
+    padding: clamp(20px,2.5vw,30px) 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding-left .35s cubic-bezier(.6,.05,.1,1);
+  }
+  .p0-svc:hover { padding-left: 14px; }
+  .svc-n { font-size: 12px; color: var(--accent); font-weight: 500; letter-spacing: .05em; }
+  .p0-svc h3 {
+    font-size: clamp(19px,1.8vw,26px);
+    font-weight: 500; letter-spacing: -.02em; color: var(--ink);
+  }
+  .p0-svc p { font-size: 15px; font-weight: 300; line-height: 1.55; color: #555; max-width: 46ch; }
+
+  /* Pull quote */
+  .p0-quote {
+    padding: clamp(60px,7vw,100px) clamp(24px,4vw,64px);
+    max-width: 1400px; margin: 0 auto;
+  }
+  .p0-quote blockquote {
+    font-size: clamp(22px,2.8vw,38px);
+    font-weight: 300; letter-spacing: -.02em;
+    line-height: 1.3; color: var(--ink); max-width: 28ch; text-wrap: balance;
+  }
+  .p0-quote cite {
+    display: block; font-size: 14px; font-style: normal;
+    color: var(--muted); margin-top: 24px;
+  }
+  .p0-quote cite b { color: var(--ink); font-weight: 600; }
+
+
+  /* ══════════════════════════════
+       PAGE 1 — Portfolio
+  ══════════════════════════════ */
+  #pg1 { background: #0e0e0d; }
+
+  .p1-inner {
+    padding: clamp(60px,7vw,100px) clamp(24px,4vw,64px);
+    max-width: 1400px; margin: 0 auto;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    box-sizing: border-box;
+  }
+  .p1-h2 {
+    font-size: clamp(44px,6.5vw,96px);
+    font-weight: 600; letter-spacing: -.04em;
+    line-height: 1.0; color: #f4f2ee;
+    margin-bottom: clamp(40px,5vw,64px);
+  }
+  .p1-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: clamp(12px,1.5vw,20px);
+  }
+  .p1-card {
+    aspect-ratio: 4/3; border-radius: 8px;
+    background: #1a1a18; overflow: hidden;
+    position: relative; cursor: pointer;
+  }
+  .p1-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 0;
+    display: block;
+    transition: transform .6s cubic-bezier(.6,.05,.1,1);
+  }
+  .p1-card:hover img { transform: scale(1.04); }
+  .p1-card-cap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 18px 22px;
+    background: linear-gradient(transparent, rgba(0,0,0,.75));
+  }
+  .p1-card-cap h3 { font-size: 16px; font-weight: 600; color: #f4f2ee; }
+  .p1-card-cap p { font-size: 13px; color: rgba(244,242,238,.5); margin-top: 3px; }
+  .p1-empty {
+    display: flex; align-items: center; justify-content: center;
+  }
+  .p1-empty span { font-size: 12px; color: rgba(255,255,255,.13); letter-spacing: .06em; text-transform: uppercase; }
+
+  .p1-back {
+    margin-top: clamp(40px,5vw,64px);
+    font-size: 14px; color: rgba(255,255,255,.3);
+    letter-spacing: .04em; text-transform: uppercase;
+  }
+
+
+  /* ══════════════════════════════
+       PAGE 2 — Contact
+  ══════════════════════════════ */
+  #pg2 { background: var(--bg); }
+
+  .p2-inner {
+    padding: clamp(60px,8vw,120px) clamp(24px,4vw,64px);
+    max-width: 900px; margin: 0 auto;
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    box-sizing: border-box;
+  }
+  .p2-h2 {
+    font-size: clamp(40px,5.8vw,84px);
+    font-weight: 600; letter-spacing: -.035em;
+    line-height: 1.02; color: var(--ink);
+    margin-bottom: clamp(20px,3vw,32px);
+  }
+  .p2-lead {
+    font-size: clamp(17px,1.5vw,21px);
+    font-weight: 300; line-height: 1.6;
+    color: #555; max-width: 46ch;
+    margin-bottom: clamp(36px,4.5vw,52px);
+  }
+  .p2-mail {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-size: clamp(20px,2.4vw,30px); font-weight: 500;
+    color: var(--ink); text-decoration: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 6px;
+    transition: color .2s, border-color .2s;
+  }
+  .p2-mail:hover { color: var(--accent); border-color: var(--accent); }
+
+  .p2-footer {
+    margin-top: auto;
+    padding: clamp(24px,3vw,40px) clamp(24px,4vw,64px);
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 14px; font-weight: 300;
+  }
+</style>
+</head>
+<body>
+
+<div id="wz-stage">
+  <div id="wz-world">
+
+    <!-- ══ PAGE 0: Home ══ -->
+    <div class="wz-page" id="pg0">
+      <nav class="p0-nav">
+        <a href="#" class="p0-logo">bensoncharly</a>
+        <div class="p0-nav-right">
+          <a href="#" class="p0-nav-link">Arbeiten</a>
+          <a href="#" class="p0-nav-link">Leistungen</a>
+          <a href="#" class="p0-cta">Projekt anfragen</a>
+        </div>
+      </nav>
+
+      <section class="p0-hero">
+        <p class="eyebrow">Webdesign-Studio · Seit 2018</p>
+        <h1 class="p0-h1">Wir gestalten Websites, die arbeiten.</h1>
+        <p class="p0-lead">bensoncharly ist ein unabhängiges Studio für Webdesign und Entwicklung. Klare Gestaltung, schnelle Technik, messbare Ergebnisse.</p>
+        <div class="p0-actions">
+          <a class="btn btn-dark" href="#">Projekt anfragen →</a>
+          <a class="btn btn-ghost" href="#">Arbeiten ansehen</a>
+        </div>
+      </section>
+
+      <section class="p0-services">
+        <div class="p0-svc"><span class="svc-n">01</span><h3>Webdesign &amp; UX</h3><p>Durchdachte Interfaces und Nutzerführung, die Marke und Conversion verbinden.</p></div>
+        <div class="p0-svc"><span class="svc-n">02</span><h3>Webentwicklung</h3><p>Schnelle, barrierefreie Websites — von der Landingpage bis zum Headless-CMS.</p></div>
+        <div class="p0-svc"><span class="svc-n">03</span><h3>Branding &amp; Identity</h3><p>Logo, Farbe, Typografie: ein stimmiges Erscheinungsbild über alle Kanäle.</p></div>
+        <div class="p0-svc"><span class="svc-n">04</span><h3>SEO &amp; Performance</h3><p>Technisches SEO und Core-Web-Vitals-Optimierung — damit man euch findet.</p></div>
+      </section>
+
+      <section class="p0-quote">
+        <blockquote>„bensoncharly hat unseren Auftritt neu gedacht — die Anfragen haben sich seither verdoppelt."</blockquote>
+        <cite><b>Lena Mertens</b> · Geschäftsführerin, Studio Form</cite>
+      </section>
+      <div class="wz-scroll-hint" id="hint0" style="background:linear-gradient(transparent, var(--bg) 60%)">
+        <span class="wz-scroll-hint-label" style="color:var(--muted)">Nächste Seite</span>
+        <div class="wz-progress-track" style="background:rgba(0,0,0,.1)">
+          <div class="wz-progress-fill" style="background:var(--accent)"></div>
+        </div>
+        <span style="font-size:12px;color:var(--muted)">↓</span>
+      </div>
+      <div class="wz-page-label" style="color:var(--ink)">Home</div>
+    </div>
+
+    <!-- ══ PAGE 1: Portfolio ══ -->
+    <div class="wz-page" id="pg1">
+      <div class="p1-inner">
+        <p class="eyebrow" style="color:var(--accent)">Ausgewählte Arbeiten</p>
+        <h2 class="p1-h2">Projekte, auf die<br>wir stolz sind.</h2>
+        <div class="p1-grid">
+          <div class="p1-card">
+            <img src="assets/folia-dark.png" alt="Folia Urnen">
+            <div class="p1-card-cap"><h3>Folia Urnen</h3><p>Markenwebsite · 2025</p></div>
+          </div>
+          <div class="p1-card p1-empty"><span>Bald verfügbar</span></div>
+          <div class="p1-card p1-empty"><span>Bald verfügbar</span></div>
+        </div>
+        <p class="p1-back">↑ scrollen um zurückzukehren &nbsp;&nbsp;·&nbsp;&nbsp; weiter scrollen ↓</p>
+      </div>
+      <div class="wz-scroll-hint" id="hint1" style="background:linear-gradient(transparent, #0e0e0d 60%)">
+        <span class="wz-scroll-hint-label" style="color:rgba(255,255,255,.35)">Nächste Seite</span>
+        <div class="wz-progress-track" style="background:rgba(255,255,255,.1)">
+          <div class="wz-progress-fill" style="background:var(--accent)"></div>
+        </div>
+        <span style="font-size:12px;color:rgba(255,255,255,.35)">↓</span>
+      </div>
+      <div class="wz-page-label" style="color:#f4f2ee">Portfolio</div>
+    </div>
+
+    <!-- ══ PAGE 2: Contact ══ -->
+    <div class="wz-page" id="pg2">
+      <div class="p2-inner">
+        <p class="eyebrow">Kontakt</p>
+        <h2 class="p2-h2">Lust auf eine Website,<br>die für euch arbeitet?</h2>
+        <p class="p2-lead">Schreibt uns — wir melden uns innerhalb von 24 Stunden mit ersten Gedanken zum Projekt.</p>
+        <a class="p2-mail" href="mailto:hallo@bensoncharly.de">hallo@bensoncharly.de →</a>
+      </div>
+      <footer class="p2-footer">
+        <span>bensoncharly · © 2026</span>
+        <span>Impressum · Datenschutz</span>
+      </footer>
+      <div class="wz-page-label" style="color:var(--ink)">Kontakt</div>
+    </div>
+
+  </div><!-- /wz-world -->
+</div><!-- /wz-stage -->
+
+<!-- Dots -->
+<div id="wz-dots">
+  <div class="wz-dot on"></div>
+  <div class="wz-dot"></div>
+  <div class="wz-dot"></div>
+</div>
+
+<!-- Scroll hint -->
+<div id="wz-hint">↓ weiter scrollen</div>
+
+<script>
+(function () {
+  const N     = 3;
+  let   cur   = 0;
+  let   busy  = false;
+
+  const world  = document.getElementById('wz-world');
+  const dotsEl = document.getElementById('wz-dots');
+  const hint   = document.getElementById('wz-hint');
+  const pages  = [0, 1, 2].map(i => document.getElementById('pg' + i));
+
+  /* ── Transform math ──
+   * transform: scale(s) translate(tx, ty)  with  transform-origin: 0 0
+   * World point (wx, wy)  →  screen: ( s*(wx+tx),  s*(wy+ty) )
+   *
+   * Normal view of page p:
+   *   s=1, tx=-p*W, ty=0
+   *
+   * Zoom-out centred on page p:
+   *   screen centre of page p's centre = (W/2, H/2)
+   *   s*(p*W + W/2 + tx) = W/2  →  tx = W/(2s) – p*W – W/2
+   *   s*(H/2     + ty)   = H/2  →  ty = H/(2s) – H/2
+   */
+  const vw = () => innerWidth;
+  const vh = () => innerHeight;
+
+  function setT(tx, ty, s, ms = 0) {
+    world.style.transition = ms
+      ? `transform ${ms}ms cubic-bezier(.65,0,.35,1)`
+      : 'none';
+    world.style.transform = `scale(${s}) translateX(${tx}px)`;
+  }
+
+  function normT(p)   { return { tx: -p * vw(), ty: 0, s: 1 }; }
+
+  function zoomT(p) {
+    const s  = 0.26;
+    // Center page p horizontally; vertical centering is automatic via transform-origin: 0 50%
+    const tx = vw() / (2 * s) - p * vw() - vw() / 2;
+    return { tx, ty: 0, s };
+  }
+
+  // Init
+  const t0 = normT(0);
+  setT(t0.tx, t0.ty, t0.s, 0);
+
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  /* ── UI state ── */
+  function updateDots() {
+    dotsEl.querySelectorAll('.wz-dot').forEach((d, i) =>
+      d.classList.toggle('on', i === cur));
+    hint.classList.toggle('hidden', cur === N - 1);
+  }
+
+  /* ── Main transition ── */
+  async function go(next) {
+    if (busy || next < 0 || next >= N || next === cur) return;
+    busy = true;
+
+    const fromPg = pages[cur];
+    if (fromPg) fromPg.style.overflow = 'hidden';
+
+    // 1. Zoom out (centred on origin page)
+    world.classList.add('zooming');
+    const z1 = zoomT(cur);
+    setT(z1.tx, 0, z1.s, 550);
+    await wait(580);
+
+    // 2. Fly to target page (still zoomed out)
+    const z2 = zoomT(next);
+    setT(z2.tx, 0, z2.s, 420);
+    await wait(450);
+
+    // 3. Zoom in to target
+    world.classList.remove('zooming');
+    const n = normT(next);
+    setT(n.tx, 0, n.s, 550);
+    await wait(580);
+
+    // Restore
+    if (fromPg) fromPg.style.overflow = '';
+    const toPg = pages[next];
+    if (toPg) toPg.scrollTop = 0;
+
+    cur  = next;
+    busy = false;
+    updateDots();
+  }
+
+  /* ── Wheel / scroll detection ── */
+  const THRESHOLD = 1200;
+  let overscroll = 0;
+  let wCool = false;
+
+  function setProgress(ratio) {
+    // Update the hint and progress bar for the current page
+    const hintEl = document.getElementById('hint' + cur);
+    if (!hintEl) return;
+    const fill = hintEl.querySelector('.wz-progress-fill');
+    const atBot = pages[cur].scrollTop + pages[cur].clientHeight >= pages[cur].scrollHeight - 8;
+    hintEl.classList.toggle('visible', atBot && ratio > 0 && cur < N - 1);
+    if (fill) fill.style.width = Math.min(100, ratio * 100) + '%';
+  }
+
+  window.addEventListener('wheel', e => {
+    if (busy) { e.preventDefault(); return; }
+
+    const pg    = pages[cur];
+    const atBot = pg.scrollTop + pg.clientHeight >= pg.scrollHeight - 8;
+    const atTop = pg.scrollTop <= 2;
+
+    if (e.deltaY > 0 && atBot && cur < N - 1) {
+      e.preventDefault();
+      overscroll = Math.min(THRESHOLD, overscroll + e.deltaY);
+      setProgress(overscroll / THRESHOLD);
+      if (overscroll >= THRESHOLD && !wCool) {
+        overscroll = 0;
+        setProgress(0);
+        wCool = true;
+        go(cur + 1).then(() => { wCool = false; });
+      }
+    } else if (e.deltaY < -20 && atTop && cur > 0) {
+      e.preventDefault();
+      overscroll = 0;
+      setProgress(0);
+      if (!wCool) {
+        wCool = true;
+        go(cur - 1).then(() => { wCool = false; });
+      }
+    } else {
+      // Normal scroll — decay overscroll slowly
+      overscroll = Math.max(0, overscroll - Math.abs(e.deltaY) * 0.4);
+      setProgress(overscroll / THRESHOLD);
+    }
+  }, { passive: false });
+
+  /* ── Keyboard ── */
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') go(cur + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'PageUp')   go(cur - 1);
+  });
+
+  /* ── Dot click ── */
+  dotsEl.querySelectorAll('.wz-dot').forEach((d, i) =>
+    d.addEventListener('click', () => go(i)));
+
+  /* ── Resize ── */
+  window.addEventListener('resize', () => {
+    const t = normT(cur);
+    setT(t.tx, t.ty, t.s, 0);
+  });
+
+  updateDots();
+})();
+</script>
+</body>
+</html>
